@@ -4,8 +4,8 @@ name: disko-san
 on: push
 
 jobs:
-  compile:
-    name: Compile test
+  runtest:
+    name: Run test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -16,3 +16,7 @@ jobs:
           go-version: '1.14'
       - name: Compile
         run: make
+      - name: Prepare disk
+        run: truncate img -s 100MB
+      - name: Run disko-san on img
+        run: ./disko-san img stats
