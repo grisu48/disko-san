@@ -1,12 +1,12 @@
 # disko-san
 
-`disko-san` is a simple tool to check the sanity of new hard drives. It check the sanity by first writing to the disk and then verifying, if the written data is OK. Data is written in form of random chunks, each 4 MB in size. Chunks consists of a chunk checksum together with random data. The checksum allows the program to verify, if the chunk is OK.
+`disko-san` is a simple tool to check the sanity of new hard drives.
 
-`disko-san` first writes the disk full with random chunks. This should test if there are any bad sectors. Performance metrics are can be written to a PERFLOG file. It then reads all written chunks and verifies them according to the written checksum. This allows to check, if the disk is healthy throughout its whole capacity. Because it first write the FULL disk and then read it from scratch, the disk cache should not be used, so that we are testing the actual physical disk write-read operation.
-After a successfull test run, the PERFLOG can be used to check if the performance throughout the disk remains the same.
+The sanity check is done by first writing random data to the disk, which then is read and verified by validating checksum. Data is written as 4 MiB chunks, each sonsisting of a 4 byte checksum plus random data. The checksum allows the program, if the chunk is valid or if the data has been corrupted.
 
-If provided with a STATE file, `disko-san` can break and resume its operation afterwards. This is useful for large disks, where the host system requires to undergo a system reboot or another kind of break without restarting the whole process again.
+If provided with a STATE file, `disko-san` can stop and resume its operation afterwards. This is useful for large disks, where the host system requires to undergo a system reboot or any other kind of interruption. `disko-san` will be able to resume the process, where it was left before.
 
+In addition, `disko-san` can log write performance metrics to a file. This PERFLOG can be used to check if the write performance of the disk remains stable throughout its capacity. This is useful to check for bad sectors, where the write performance might not be stable.
 
 ## Usage
 
@@ -26,3 +26,6 @@ or the lazy way
 
     make
 
+# Disclaimer
+
+The software is provided as-is without any warranty of claims to be correct or even working at all. I'm a random dude from the internet, it's up to you to decide to trust me or not :-)
