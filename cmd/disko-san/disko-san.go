@@ -210,6 +210,11 @@ func WriteCheck(disk *Disk, progress *Progress, statsFile string) error {
 		return err
 	}
 
+	// Background chunk production instance
+	var cf ChunkFactory
+	cf.StartProduce(CHUNKSIZE)
+	defer cf.Stop()
+
 	fmt.Printf("\033[s") // save cursor position
 	for progress.Pos < progress.Size {
 		// Determine size of current chunk - at the end of the disk this might not be the full size anymore
@@ -219,10 +224,10 @@ func WriteCheck(disk *Disk, progress *Progress, statsFile string) error {
 			chunk = chunk[:size]
 		}
 
-		// TODO: Create thread for create chunk to speed up process
-
 		// Create chunk
-		CreateChunk(chunk)
+		if err := cf.Read(chunk); err != nil {
+			return fmt.Errorf("ChunkFactory read error: %s", err)
+		}
 		// Write chunk to file with runtime
 		runtime := time.Now().UnixNano()
 		if n, err := disk.Write(chunk); err != nil {
