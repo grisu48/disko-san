@@ -92,5 +92,9 @@ func (cf *ChunkFactory) Read(buf []byte) error {
 }
 
 func (cf *ChunkFactory) Stop() {
+	if !cf.running {
+		return
+	}
 	cf.running = false
+	cf.sig <- 1
 }
