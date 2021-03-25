@@ -17,6 +17,10 @@ jobs:
       - name: Compile
         run: make
       - name: Prepare disk
-        run: truncate img -s 100MB
-      - name: Run disko-san on img
+        run: truncate img -s 20MB
+      - name: Run disko-san
+        run: ./disko-san img
+      - name: Run disko-san with stats
         run: ./disko-san img stats
+      - name: Run disko-san with stats and performance log
+        run: ./disko-san img stats0 log
