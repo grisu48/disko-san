@@ -16,6 +16,10 @@ In addition, `disko-san` can log write performance metrics to a file. This PERFL
 	  STATE         progress file, required for resume operations
 	  PERFLOG       write performance (write metrics) to this file
 
+`analyse.py` is a small python script to analyse the PERFLOG. It prints the min,max and average values of different subsets of all values (99% values and 68% values)
+
+    ./analyse.py PERFLOG
+
 ## Building
 
 `disko-san` is written in plain go without additional requirements
