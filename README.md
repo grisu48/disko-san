@@ -16,6 +16,20 @@ In addition, `disko-san` can log write performance metrics to a file. This PERFL
 	  STATE         progress file, required for resume operations
 	  PERFLOG       write performance (write metrics) to this file
 
+**Example**
+
+To analyze the disk `/dev/sdh` and save the progress to `/home/phoenix/disk_sdh` but no PERFLOG file do
+
+    disko-san /dev/sdh /home/phoenix/disk_sdh
+
+To include the performance log and write it to `/home/phoenix/perf_sdh` do
+
+    disko-san /dev/sdh /home/phoenix/disk_sdh disko-san /dev/sdh /home/phoenix/perf_sdh
+
+When using the performance log, keep in mind to keep the state and perflog files on a different disk to not influce the ongoing measurement with the constant rewrites of those files. In principle the amount of writes needed is 3 orders of magnitude smaller due to the chunk size, but the effect is not negligible and it is a bad practise.
+
+### Perflog analyze
+
 `analyse.py` is a small python script to analyse the PERFLOG. It prints the min,max and average values of different subsets of all values (99% values and 68% values)
 
     ./analyse.py PERFLOG
